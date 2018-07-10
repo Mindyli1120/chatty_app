@@ -18,6 +18,7 @@ class App extends Component {
         content: "No, I think you lost them. You lost your marbles Bob. You lost them for good."
       }]
     }
+    this.onNewMessage = this.onNewMessage.bind(this);
   }
 
   componentDidMount() {
@@ -33,7 +34,17 @@ class App extends Component {
     }, 3000);
   }
   
+  generateID() {
+    const id = Math.floor(Math.random() * 1000)
+    return id
+  }
 
+  onNewMessage(content) {
+    const newMessage = { id: this.generateID(), username: "Bob", content: content}
+    const messages = this.state.messages.concat(newMessage);
+    this.setState({messages: messages})
+  }
+  
   render() {
     
     return (
@@ -42,7 +53,7 @@ class App extends Component {
       <a href="/" className="navbar-brand">Chatty</a>
     </nav>
     <MessageList messages={this.state.messages}/>
-    <ChatBar currentUser={this.state.currentUser}/>
+    <ChatBar currentUser={this.state.currentUser} onNewMessage={this.onNewMessage}/>
     </div>
     );
   }
