@@ -27,14 +27,16 @@ class App extends Component {
     //`ws://${window.location.host}/`
     this.socket = new WebSocket("ws://localhost:3001");
     console.log("Connected to Server");
+    this.socket.onmessage = event => {
+      console.log("received massage on client", event)
+      const messages = this.state.messages.concat(JSON.parse(event.data));
+    this.setState({messages: messages})
+    }
   }
   
   onNewMessage(content) {
     const newMessage = { username: "Bob", content: content}
     this.socket.send(JSON.stringify(newMessage));
-    
-    // const messages = this.state.messages.concat(newMessage);
-    // this.setState({messages: messages})
   }
 
   render() {
