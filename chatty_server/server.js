@@ -2,7 +2,7 @@
 
 const express = require('express');
 const SocketServer = require('ws').Server;
-
+const uuidv1 = require('uuid/v1');
 // Set the port to 3001
 const PORT = 3001;
 
@@ -19,9 +19,6 @@ const wss = new SocketServer({ server });
 // When a client connects they are assigned a socket, represented by
 // the ws parameter in the callback.
 
-// wss.on('connection', (ws) => {
-//   console.log('Client connected');
-
 //Receive messages:
 wss.on('connection', function connection(ws) {
   console.log('Client connected');
@@ -29,7 +26,9 @@ wss.on('connection', function connection(ws) {
     const msgObj = JSON.parse(message)
     console.log('received: %s', `User ${msgObj.username} said ${msgObj.content}`);
   });
-
+  ws.on('open', function open() {
+    ws.send()
+  })
 
   // Set up a callback for when a client closes the socket. This usually means they closed their browser.
   ws.on('close', () => console.log('Client disconnected'));
