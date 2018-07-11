@@ -7,16 +7,7 @@ class App extends Component {
     super(props);
     this.state = {
       currentUser: {name: "Bob"},
-      messages: [{
-        id: 1,
-        username: "Bob",
-        content: "Has anyone seen my marbles?",
-      },
-      {
-        id: 2,
-        username: "Anonymous",
-        content: "No, I think you lost them. You lost your marbles Bob. You lost them for good."
-      }]
+      messages: []
     }
     this.onNewMessage = this.onNewMessage.bind(this);
   }
@@ -32,19 +23,20 @@ class App extends Component {
       // Calling setState will trigger a call to render() in App and all child components.
       this.setState({messages: messages})
     }, 3000);
+
+    //`ws://${window.location.host}/`
+    this.socket = new WebSocket("ws://localhost:3001");
+    console.log("Connected to Server");
   }
   
-  generateID() {
-    const id = Math.floor(Math.random() * 1000)
-    return id
+  onNewMessage(content) {
+    const newMessage = { username: "Bob", content: content}
+    this.socket.send(JSON.stringify(newMessage));
+    
+    // const messages = this.state.messages.concat(newMessage);
+    // this.setState({messages: messages})
   }
 
-  onNewMessage(content) {
-    const newMessage = { id: this.generateID(), username: "Bob", content: content}
-    const messages = this.state.messages.concat(newMessage);
-    this.setState({messages: messages})
-  }
-  
   render() {
     
     return (
