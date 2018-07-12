@@ -26,7 +26,7 @@ class App extends Component {
     }, 3000);
 
     //`ws://${window.location.host}/`
-    this.socket = new WebSocket("ws://localhost:3001");
+    this.socket = new WebSocket(`ws://${window.location.hostname}:3001`);
     this.socket.onmessage = event => {
       const messages = this.state.messages.concat(JSON.parse(event.data));
     this.setState({messages: messages})
@@ -55,4 +55,4 @@ class App extends Component {
     );
   }
 }
-export default App;
+export default App ;

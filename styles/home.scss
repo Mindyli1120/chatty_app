@@ -38,6 +38,11 @@ body {
   flex: 2;
 }
 
+.messages {
+  overflow-Y: scroll;
+  height: 83vh;
+}
+
 .message {
   display: flex;
   padding: 5px;
