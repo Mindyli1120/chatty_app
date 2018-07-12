@@ -2,10 +2,6 @@ import React, {Component} from 'react';
 import Message from './Message.jsx';
 import autoscroll from 'autoscroll-react'
 
-// const style = {
-//     overflowY: 'scroll',
-//     height: '800px'
-// }
 
 class MessageList extends Component {
     render() {
@@ -13,7 +9,8 @@ class MessageList extends Component {
             return <Message 
             key={msg.id}
             username={msg.username}
-            content={msg.content} />
+            content={msg.content} 
+            notification={msg.notification}/>
         })
         return <main className="messages">{messageItem}</main>;
     }

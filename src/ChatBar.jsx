@@ -4,7 +4,6 @@ class ChatBar extends Component {
     constructor(props) {
         super(props);
         this.state = {
-            currentUser: "",
             content: ""
         }
         this.onContent = this.onContent.bind(this);
@@ -25,10 +24,8 @@ class ChatBar extends Component {
 
     //creating new name for current user
     onCurrentUser(event) {
-        console.log("28:::", event);
         const currentUser = event.target.value.length === 0 ? {name:'Anonymous'} : {name: event.target.value}
-        this.props.onNewCurrentUser(currentUser);
-        
+        this.props.onNewCurrentUser(currentUser);        
     }
 
 

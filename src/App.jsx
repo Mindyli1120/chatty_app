@@ -7,7 +7,8 @@ class App extends Component {
     super(props);
     this.state = {
       currentUser: {name: ""},
-      messages: []
+      messages: [],
+      totalUsers: ""
     }
     this.onNewMessage = this.onNewMessage.bind(this);
     this.onNewCurrentUser = this.onNewCurrentUser.bind(this);
@@ -28,17 +29,49 @@ class App extends Component {
     //`ws://${window.location.host}/`
     this.socket = new WebSocket(`ws://${window.location.hostname}:3001`);
     this.socket.onmessage = event => {
-      const messages = this.state.messages.concat(JSON.parse(event.data));
-    this.setState({messages: messages})
-    }
+      const data = JSON.parse(event.data);
+      switch(data.type){
+        case "incomingMessage":
+          //handle incoming message
+          const messages = this.state.messages.concat(data);
+          this.setState({messages: messages})
+        break;
+
+        case "incomingNotification":
+          // handle incoming notification
+          //const notification = data.content
+          const notification = this.state.messages.concat(data);
+          //this.setState({messages: messages})
+          this.setState({messages: notification})
+          break;
+
+        case "Total Users":
+        // handel the total user
+        this.setState({totalUsers: data.content})
+        break;
+
+        default:
+          // show an error in the console if the message type is unknown
+          throw new Error("Unknown event type " + data.type);
+        }
+      }
+    //   const messages = this.state.messages.concat(JSON.parse(event.data));
+    // this.setState({messages: messages})
+    // }
   }
   onNewCurrentUser(currentUser) {
-    console.log("App 43", currentUser);
-    this.setState({currentUser: currentUser})
+    if(this.state.currentUser.name === "" || this.state.currentUser.name === currentUser.name) {
+      this.setState({currentUser: currentUser});
+    } else {
+      const newNotification = {type: "postNotification", content: `${this.state.currentUser.name} has changed their name to ${currentUser.name}`}
+      this.socket.send(JSON.stringify(newNotification));
+      this.setState({currentUser: currentUser})
+    }
+    
   }
 
   onNewMessage(content) {
-    const newMessage = { username: this.state.currentUser.name, content: content}
+    const newMessage = { type: "postMessage", username: this.state.currentUser.name, content: content}
     this.socket.send(JSON.stringify(newMessage));
 
   }
@@ -48,8 +81,9 @@ class App extends Component {
     <div>
     <nav className="navbar">
       <a href="/" className="navbar-brand">Chatty</a>
+      <span className="navbar-users-online">{this.state.totalUsers}</span>
     </nav>
-    <MessageList messages={this.state.messages}/>
+    <MessageList messages={this.state.messages} />
     <ChatBar currentUser={this.state.currentUser} onNewMessage={this.onNewMessage} onNewCurrentUser={this.onNewCurrentUser} />
     </div>
     );

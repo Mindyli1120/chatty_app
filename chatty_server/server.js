@@ -27,18 +27,46 @@ function broadcastMessage(message) {
   }
 }
 
+//Sending the incoming message to all the clients
 function incoming(message) {
-  const msgObj = JSON.parse(message)
+  const msgObj = JSON.parse(message);
   msgObj.id = uuidv1();
-  console.log('received: %s', `User ${msgObj.username} said ${msgObj.content}`);
-  broadcastMessage(msgObj)
+  if (msgObj.type === "postMessage") {
+    const message = {
+      id: msgObj.id,
+      username: msgObj.username,
+      type: "incomingMessage",
+      notification: "",
+      content: msgObj.content
+    }
+    broadcastMessage(message)
+  } else {
+    const notification = {
+      id: msgObj.id,
+      type: "incomingNotification",
+      username: "",
+      notification: msgObj.content,
+      content: ""
+    }
+    broadcastMessage(notification);
+  }
 }
-
+let count = 0;
 //Receive messages:
 wss.on('connection', function connection(ws) {
-  console.log('Client connected');
+  count++
+  console.log('Client connected', count);
+  const totalUsers = {type: "Total Users", content: `${count} User(s) Online`};
+  broadcastMessage(totalUsers);
   ws.on('message', incoming);
-  
+    
   // Set up a callback for when a client closes the socket. This usually means they closed their browser.
-  ws.on('close', () => console.log('Client disconnected'));
+  ws.on('close', function close() {
+    count--;
+    console.log('Client disconnected', count);
+    const totalUsersAfterClose = {type: "Total Users", content: `${count} User(s) Online`};
+    console.log(totalUsersAfterClose)
+    broadcastMessage(totalUsersAfterClose);
+  })
+  
 });
