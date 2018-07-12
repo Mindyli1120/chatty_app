@@ -6,10 +6,11 @@ class App extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      currentUser: {name: "Bob"},
+      currentUser: {name: ""},
       messages: []
     }
     this.onNewMessage = this.onNewMessage.bind(this);
+    this.onNewCurrentUser = this.onNewCurrentUser.bind(this);
   }
 
   componentDidMount() {
@@ -26,28 +27,30 @@ class App extends Component {
 
     //`ws://${window.location.host}/`
     this.socket = new WebSocket("ws://localhost:3001");
-    console.log("Connected to Server");
     this.socket.onmessage = event => {
-      console.log("received massage on client", event)
       const messages = this.state.messages.concat(JSON.parse(event.data));
     this.setState({messages: messages})
     }
   }
-  
+  onNewCurrentUser(currentUser) {
+    console.log("App 43", currentUser);
+    this.setState({currentUser: currentUser})
+  }
+
   onNewMessage(content) {
-    const newMessage = { username: "Bob", content: content}
+    const newMessage = { username: this.state.currentUser.name, content: content}
     this.socket.send(JSON.stringify(newMessage));
+
   }
 
   render() {
-    
     return (
     <div>
     <nav className="navbar">
       <a href="/" className="navbar-brand">Chatty</a>
     </nav>
     <MessageList messages={this.state.messages}/>
-    <ChatBar currentUser={this.state.currentUser} onNewMessage={this.onNewMessage}/>
+    <ChatBar currentUser={this.state.currentUser} onNewMessage={this.onNewMessage} onNewCurrentUser={this.onNewCurrentUser} />
     </div>
     );
   }
