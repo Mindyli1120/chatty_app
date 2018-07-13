@@ -55,9 +55,6 @@ class App extends Component {
           throw new Error("Unknown event type " + data.type);
         }
       }
-    //   const messages = this.state.messages.concat(JSON.parse(event.data));
-    // this.setState({messages: messages})
-    // }
   }
   onNewCurrentUser(currentUser) {
     if(this.state.currentUser.name === "" || this.state.currentUser.name === currentUser.name) {
