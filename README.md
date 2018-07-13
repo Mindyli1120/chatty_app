@@ -1,5 +1,7 @@
 # Chatty App
-!["The demo"](https://github.com/Mindyli1120/chatty_app/blob/master/documents/chatty_app_gif1.gif?raw=true)
+!["The demo1"](https://github.com/Mindyli1120/chatty_app/blob/master/documents/chatty_app_gif1.gif?raw=true)
+!["The demo1"](https://github.com/Mindyli1120/chatty_app/blob/master/documents/chatty_app_gif2.gif?raw=true)
+
 Chatty App is a one-page mini chat room allowing users to chat with other users.
 
 ## Features
