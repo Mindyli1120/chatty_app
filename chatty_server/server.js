@@ -51,21 +51,19 @@ function incoming(message) {
     broadcastMessage(notification);
   }
 }
-let count = 0;
+
+
 //Receive messages:
 wss.on('connection', function connection(ws) {
-  count++
-  console.log('Client connected', count);
-  const totalUsers = {type: "Total Users", content: `${count} User(s) Online`};
+  const totalUsers = {type: "Total Users", content: `${wss.options.server._connections} User(s) Online`};
   broadcastMessage(totalUsers);
+  
   ws.on('message', incoming);
     
   // Set up a callback for when a client closes the socket. This usually means they closed their browser.
   ws.on('close', function close() {
-    count--;
-    console.log('Client disconnected', count);
-    const totalUsersAfterClose = {type: "Total Users", content: `${count} User(s) Online`};
-    console.log(totalUsersAfterClose)
+    console.log('Client disconnected');
+    const totalUsersAfterClose = {type: "Total Users", content: `${wss.options.server._connections} User(s) Online`};
     broadcastMessage(totalUsersAfterClose);
   })
   

@@ -26,7 +26,6 @@ class App extends Component {
       this.setState({messages: messages})
     }, 3000);
 
-    //`ws://${window.location.host}/`
     this.socket = new WebSocket(`ws://${window.location.hostname}:3001`);
     this.socket.onmessage = event => {
       const data = JSON.parse(event.data);
@@ -39,15 +38,13 @@ class App extends Component {
 
         case "incomingNotification":
           // handle incoming notification
-          //const notification = data.content
           const notification = this.state.messages.concat(data);
-          //this.setState({messages: messages})
           this.setState({messages: notification})
-          break;
+        break;
 
         case "Total Users":
-        // handel the total user
-        this.setState({totalUsers: data.content})
+          // handel the total user
+          this.setState({totalUsers: data.content})
         break;
 
         default:
