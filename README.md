@@ -1,11 +1,11 @@
 # Chatty App
-Chatty App is a one-page mini chat room allowing users to chat with other users.
+*   Chatty App is a one-page mini chat room allowing users to chat with other users.
 
 ## Final Project Result
-This is a gif demo for changing username and post notification and content:
+*   This is a gif demo for changing username and post notification and content:
 !["The demo1"](https://github.com/Mindyli1120/chatty_app/blob/master/documents/chatty_app_gif1.gif?raw=true)
 
-This is a gif demo to show multi users online:
+*   This is a gif demo to show multi users online:
 !["The demo1"](https://github.com/Mindyli1120/chatty_app/blob/master/documents/chatty_app_gif2.gif?raw=true)
 
 ## Features
