@@ -8,7 +8,8 @@ class App extends Component {
     this.state = {
       currentUser: {name: ""},
       messages: [],
-      totalUsers: ""
+      totalUsers: "",
+      color: ""
     }
     this.onNewMessage = this.onNewMessage.bind(this);
     this.onNewCurrentUser = this.onNewCurrentUser.bind(this);
@@ -44,7 +45,7 @@ class App extends Component {
 
         case "Total Users":
           // handel the total user
-          this.setState({totalUsers: data.content})
+          this.setState({totalUsers: data.content});
         break;
 
         default:

@@ -10,7 +10,9 @@ class MessageList extends Component {
             key={msg.id}
             username={msg.username}
             content={msg.content} 
-            notification={msg.notification}/>
+            notification={msg.notification}
+            color={msg.color}
+            />
         })
         return <main className="messages">{messageItem}</main>;
     }
